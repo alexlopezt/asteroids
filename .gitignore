@@ -19,3 +19,15 @@
 
 # Go workspace file
 go.work
+
+*.wasm
+src/assets/PNG
+src/assets/Meteors
+src/assets/Vector
+src/assets/Spritesheet
+.DS_Store
+
+src/.vscode/
+
+*.code-workspace
+
