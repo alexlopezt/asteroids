@@ -15,11 +15,10 @@ import (
 var assets embed.FS
 
 var Soil = mustLoadImage("soil_square.png")
-var PlayerSprite = mustLoadImage("player.png")
-var MeteorSprites = mustLoadImages("Meteors/*.png")
-
-var LaserSprite = mustLoadImage("laser.png")
-var ScoreFont = mustLoadFont("font.ttf")
+var PlayerSprite = mustLoadImage("ninja_personaje_v1.png")
+var StarGold = mustLoadImage("starGold.png")
+var StarBronze = mustLoadImage("starBronze.png")
+var ScoreFont = mustLoadFont("kenvector_future_thin.ttf")
 
 func mustLoadImage(name string) *ebiten.Image {
 	f, err := assets.Open(name)

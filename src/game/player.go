@@ -8,9 +8,9 @@ import (
 )
 
 type Player struct {
-	sprite         *ebiten.Image
-	playerPosition Point
-	rotation       float64
+	sprite   *ebiten.Image
+	position Point
+	rotation float64
 }
 
 func NewPlayer() *Player {
@@ -18,19 +18,19 @@ func NewPlayer() *Player {
 	sprite := assets.PlayerSprite
 	bounds := sprite.Bounds()
 	halfW := float64(bounds.Dx()) / 2
-	halfH := float64(bounds.Dy()) / 2
+	// halfH := float64(bounds.Dy()) / 2
 
 	pos := Point{
 		X: ScreenWidth/2 - halfW,
-		Y: ScreenHeight/2 - halfH,
+		Y: float64(ScreenHeight - 20 - sprite.Bounds().Dy()),
 	}
 	return &Player{
-		playerPosition: pos,
-		sprite:         sprite,
+		position: pos,
+		sprite:   sprite,
 	}
 }
 
-func (p *Player) Update() {
+func (p *Player) UpdateNotUsed() {
 	speed := math.Pi / float64(ebiten.TPS())
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
@@ -40,7 +40,7 @@ func (p *Player) Update() {
 		p.rotation += speed
 	}
 }
-func (p *Player) UpdateNotUsed() {
+func (p *Player) Update() {
 	speed := 5.0
 
 	var delta Point
@@ -65,24 +65,28 @@ func (p *Player) UpdateNotUsed() {
 		delta.Y *= factor
 	}
 
-	p.playerPosition.X += delta.X
-	p.playerPosition.Y += delta.Y
+	p.position.X += delta.X
+	p.position.Y += delta.Y
 
 	// p.updateRotation()
 }
 
 func (p *Player) Draw(screen *ebiten.Image) {
-	bounds := p.sprite.Bounds()
 
-	halfW := float64(bounds.Dx()) / 2
-	halfH := float64(bounds.Dy()) / 2
 	op := &ebiten.DrawImageOptions{}
 
-	op.GeoM.Translate(-halfW, -halfH)
-	op.GeoM.Rotate(p.rotation)
-	op.GeoM.Translate(halfW, halfH)
-
-	op.GeoM.Translate(p.playerPosition.X, p.playerPosition.Y)
+	op.GeoM.Translate(p.position.X, p.position.Y)
 
 	screen.DrawImage(assets.PlayerSprite, op)
+}
+
+func (p *Player) Collider() Rect {
+	bounds := p.sprite.Bounds()
+
+	return NewRect(
+		p.position.X,
+		p.position.Y,
+		float64(bounds.Dx()),
+		float64(bounds.Dy()),
+	)
 }

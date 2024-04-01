@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	g := game.NewGame()
 
+	g := game.NewGame()
 	err := ebiten.RunGame(g)
 	if err != nil {
 		panic(err)
